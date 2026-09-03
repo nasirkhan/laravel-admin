@@ -4,6 +4,10 @@ A Tailwind CSS / Flowbite backend shell for Laravel — sidebar, header, breadcr
 
 This package provides the structural layout (sidebar, top navigation, main content wrapper) for a Laravel admin panel. It is designed to work alongside [laravel-cube](https://github.com/nasirkhan/laravel-cube) for UI components, but the core layout works independently.
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/nasirkhan/laravel-admin.svg?style=flat-square)](https://packagist.org/packages/nasirkhan/laravel-admin)
+[![Total Downloads](https://img.shields.io/packagist/dt/nasirkhan/laravel-admin.svg?style=flat-square)](https://packagist.org/packages/nasirkhan/laravel-admin)
+[![License](https://img.shields.io/packagist/l/nasirkhan/laravel-admin.svg?style=flat-square)](https://packagist.org/packages/nasirkhan/laravel-admin)
+
 ## Requirements
 
 - PHP ^8.2
