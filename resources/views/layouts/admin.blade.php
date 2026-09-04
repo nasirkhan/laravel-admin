@@ -34,6 +34,7 @@
         @endif
 
         @stack('styles')
+        @stack('after-styles')
 
         @livewireStyles
     </head>
@@ -61,5 +62,6 @@
         @livewireScripts
 
         @stack('scripts')
+        @stack('after-scripts')
     </body>
 </html>
