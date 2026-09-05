@@ -57,7 +57,12 @@
                     @php
                         $routeExists = \Illuminate\Support\Facades\Route::has($item['route'] ?? '');
                         $url = $routeExists ? route($item['route']) : '#';
-                        $active = $routeExists && request()->routeIs($item['route']);
+                        $routeKey = $item['route'] ?? '';
+                        $routePrefix = \Illuminate\Support\Str::beforeLast($routeKey, '.');
+                        $active = $routeExists && (
+                            request()->routeIs($routeKey) ||
+                            (str_ends_with($routeKey, '.index') && request()->routeIs($routePrefix . '.*'))
+                        );
                         $icon = $icons[$item['icon'] ?? ''] ?? $icons['home'];
                     @endphp
                     <a
