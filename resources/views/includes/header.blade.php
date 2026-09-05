@@ -25,13 +25,16 @@
 
                 {{-- Logo + brand name (matches Flowbite first shell) --}}
                 <a href="{{ route('backend.dashboard') }}" class="flex items-center me-4 md:me-6">
-                    @if (config('admin.logo'))
-                        <img src="{{ asset(config('admin.logo')) }}" class="h-8 me-3" alt="{{ config('admin.name') }}" />
-                    @else
-                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                            {{ config('admin.name') }}
-                        </span>
-                    @endif
+                    <x-cube::application-logo :square="true" class="h-10 rounded fill-current text-black dark:text-white md:hidden" />
+                    <x-cube::application-logo class="hidden h-10 rounded fill-current text-black dark:text-white md:block" />
+                </a>
+
+                {{-- Frontend link --}}
+                <a href="{{ url('/') }}" target="_blank" title="{{ __('View Site') }}" class="flex p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none" aria-label="{{ __('View Site') }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+                    </svg>
+                    <span class="sr-only">{{ __('View Site') }}</span>
                 </a>
 
                 {{-- Breadcrumb slot --}}
@@ -44,6 +47,8 @@
 
             {{-- Right: date/clock, dark mode, notifications, user --}}
             <div class="flex items-center gap-2">
+
+                
 
                 {{-- Live clock --}}
                 <span class="hidden md:block text-sm text-gray-500 dark:text-gray-400 mr-2">
