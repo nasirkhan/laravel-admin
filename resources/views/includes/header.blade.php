@@ -5,7 +5,7 @@
 @endphp
 
 <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 sm:ml-0">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <div class="px-3 py-2 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
 
             {{-- Left: hamburger + logo + breadcrumb --}}
@@ -31,9 +31,7 @@
 
                 {{-- Frontend link --}}
                 <a href="{{ url('/') }}" target="_blank" title="{{ __('View Site') }}" class="flex p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none" aria-label="{{ __('View Site') }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-                    </svg>
+                    <i class="fa-solid fa-up-right-from-square"></i>
                     <span class="sr-only">{{ __('View Site') }}</span>
                 </a>
 
@@ -46,9 +44,7 @@
             </div>
 
             {{-- Right: date/clock, dark mode, notifications, user --}}
-            <div class="flex items-center gap-2">
-
-                
+            <div class="flex items-center gap-2">                
 
                 {{-- Live clock --}}
                 <span class="hidden md:block text-sm text-gray-500 dark:text-gray-400 mr-2">
@@ -127,7 +123,7 @@
                         <div class="py-1">
                             <a
                                 href="{{ route('backend.notifications.index') }}"
-                                class="block px-4 py-2 text-sm text-center text-blue-600 hover:bg-gray-100 dark:text-blue-400 dark:hover:bg-gray-600"
+                                class="block px-4 py-2 text-sm text-center text-amber-600 hover:bg-gray-100 dark:text-amber-400 dark:hover:bg-gray-600"
                             >
                                 @lang('View all notifications')
                             </a>

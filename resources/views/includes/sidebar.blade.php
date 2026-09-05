@@ -65,7 +65,7 @@
                         wire:navigate
                         class="flex items-center px-3 py-2 text-sm font-medium rounded-lg group
                             {{ $active
-                                ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                                ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
                                 : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' }}"
                     >
                         <svg class="w-5 h-5 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -74,7 +74,7 @@
                         <span>{{ __($item['label']) }}</span>
 
                         @if (($item['route'] ?? '') === 'backend.notifications.index' && $notificationsCount)
-                            <span class="ml-auto inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-blue-600 rounded-full">
+                            <span class="ml-auto inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-amber-600 rounded-full">
                                 {{ $notificationsCount }}
                             </span>
                         @endif
