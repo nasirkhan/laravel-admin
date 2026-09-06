@@ -83,6 +83,122 @@ return [
 
 Supported `icon` values: `home`, `users`, `shield`, `bell`, `cog`.
 
+## What's included
+
+Beyond the layout shell, the package ships a complete backend for the three core resources:
+
+| Resource | Routes (prefix `admin/`) | Controller |
+|---|---|---|
+| Dashboard | `GET /`, `GET /dashboard` | `BackendController` |
+| Users | CRUD + block/unblock/trash/restore/change-password | `UserController` |
+| Roles | CRUD + permission sync | `RolesController` |
+| Notifications | index / show / mark-all-read / delete-all | `NotificationsController` |
+
+All routes are named under the `backend.` prefix (e.g. `backend.users.index`) and protected by the `auth` and `can:view_backend` middleware.
+
+Two Livewire components power the index tables:
+
+- `backend.users-index` → `Nasirkhan\Admin\Livewire\UsersIndex`
+- `backend.roles-index` → `Nasirkhan\Admin\Livewire\RolesIndex`
+
+Controllers intentionally keep `use App\Models\User` and `use App\Models\Role` — models stay in the host application.
+
+## Customising views
+
+Published views in the host application always take precedence over the package defaults. You can override any view without touching the package.
+
+### Publish all views at once
+
+```bash
+php artisan vendor:publish --tag=admin-views
+```
+
+Files land in `resources/views/vendor/admin/` with the same structure as the package:
+
+```
+resources/views/vendor/admin/
+├── users/
+│   ├── index.blade.php
+│   ├── create.blade.php
+│   ├── edit.blade.php
+│   ├── show.blade.php
+│   ├── changePassword.blade.php
+│   └── trash.blade.php
+├── roles/
+│   ├── index.blade.php
+│   ├── create.blade.php
+│   ├── edit.blade.php
+│   └── show.blade.php
+├── notifications/
+│   ├── index.blade.php
+│   └── show.blade.php
+├── includes/
+│   ├── action_column.blade.php
+│   ├── errors.blade.php
+│   ├── show.blade.php
+│   ├── user_actions.blade.php
+│   └── user_roles.blade.php
+└── livewire/
+    ├── users-index.blade.php
+    └── roles-index.blade.php
+```
+
+### Publish selectively
+
+Copy only the files you need to override. For example, to override just the user edit form:
+
+```bash
+mkdir -p resources/views/vendor/admin/users
+cp vendor/nasirkhan/laravel-admin/resources/views/users/edit.blade.php \
+   resources/views/vendor/admin/users/edit.blade.php
+```
+
+Laravel resolves `admin::users.edit` by looking in `resources/views/vendor/admin/` first, then falling back to the package.
+
+### Publish everything (views + config + routes)
+
+```bash
+php artisan vendor:publish --provider="Nasirkhan\Admin\AdminServiceProvider"
+```
+
+## Adding columns to the users table
+
+To add a new field (e.g. `phone`) to user management:
+
+**1. Create and run a migration**
+
+```bash
+php artisan make:migration add_phone_to_users_table --table=users
+php artisan migrate
+```
+
+**2. Add the column to `$fillable` in `App\Models\User`**
+
+```php
+protected $fillable = ['name', 'email', 'phone', ...];
+```
+
+**3. Publish the views you need to change** (if not already published)
+
+```bash
+php artisan vendor:publish --tag=admin-views
+```
+
+**4. Edit the published views**
+
+- `resources/views/vendor/admin/users/create.blade.php` — add the form field
+- `resources/views/vendor/admin/users/edit.blade.php` — add the field with its old/current value
+- `resources/views/vendor/admin/users/show.blade.php` — add a display row
+
+**5. Optional — make the column visible in the listing**
+
+Publish and edit `resources/views/vendor/admin/livewire/users-index.blade.php` to add a column to the table. If the column also needs to be searchable or sortable, publish the Livewire component class by copying it into your app and re-registering it in a service provider:
+
+```php
+// In your AppServiceProvider::boot()
+\Livewire\Livewire::component('backend.users-index', \App\Livewire\Admin\UsersIndex::class);
+```
+
 ## Usage
 
 Extend the admin layout in your backend Blade views:
