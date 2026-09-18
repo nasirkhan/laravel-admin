@@ -17,8 +17,8 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         if (class_exists(Livewire::class)) {
-            Livewire::component('backend.dashboard', Dashboard::class);
-            Livewire::component('backend.notifications', Notifications::class);
+            Livewire::component('admin.dashboard', Dashboard::class);
+            Livewire::component('admin.notifications', Notifications::class);
             Livewire::component('backend.users-index', UsersIndex::class);
             Livewire::component('backend.roles-index', RolesIndex::class);
         }
