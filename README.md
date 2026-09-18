@@ -96,10 +96,14 @@ Beyond the layout shell, the package ships a complete backend for the three core
 
 All routes are named under the `backend.` prefix (e.g. `backend.users.index`) and protected by the `auth` and `can:view_backend` middleware.
 
-Two Livewire components power the index tables:
+Four Livewire components are registered by the package:
 
-- `backend.users-index` → `Nasirkhan\Admin\Livewire\UsersIndex`
-- `backend.roles-index` → `Nasirkhan\Admin\Livewire\RolesIndex`
+| Alias | Class |
+|---|---|
+| `backend.dashboard` | `Nasirkhan\Admin\Livewire\Dashboard` |
+| `backend.notifications` | `Nasirkhan\Admin\Livewire\Notifications` |
+| `backend.users-index` | `Nasirkhan\Admin\Livewire\UsersIndex` |
+| `backend.roles-index` | `Nasirkhan\Admin\Livewire\RolesIndex` |
 
 Controllers intentionally keep `use App\Models\User` and `use App\Models\Role` — models stay in the host application.
 
@@ -139,6 +143,8 @@ resources/views/vendor/admin/
 │   ├── user_actions.blade.php
 │   └── user_roles.blade.php
 └── livewire/
+    ├── dashboard.blade.php
+    ├── notifications.blade.php
     ├── users-index.blade.php
     └── roles-index.blade.php
 ```
@@ -198,6 +204,58 @@ Publish and edit `resources/views/vendor/admin/livewire/users-index.blade.php` t
 // In your AppServiceProvider::boot()
 \Livewire\Livewire::component('backend.users-index', \App\Livewire\Admin\UsersIndex::class);
 ```
+
+## Overriding the Dashboard and Notifications components
+
+The `Dashboard` and `Notifications` Livewire components are intentionally minimal — they ship as empty shells so you can fill them with your own widgets and reactive features.
+
+### Override the view only
+
+Place a file at the corresponding vendor path and Laravel will use it instead of the package default:
+
+```
+resources/views/vendor/admin/livewire/dashboard.blade.php
+resources/views/vendor/admin/livewire/notifications.blade.php
+```
+
+Or publish all views at once and edit from there:
+
+```bash
+php artisan vendor:publish --tag=admin-views
+```
+
+### Override the component class
+
+If you need to add properties, computed data, or new actions (e.g. loading stats for dashboard widgets), extend the package class and re-register the alias in your `AppServiceProvider`:
+
+```php
+// app/Livewire/Admin/Dashboard.php
+namespace App\Livewire\Admin;
+
+use Nasirkhan\Admin\Livewire\Dashboard as BaseDashboard;
+
+class Dashboard extends BaseDashboard
+{
+    public int $userCount;
+
+    public function mount(): void
+    {
+        $this->userCount = \App\Models\User::count();
+    }
+}
+```
+
+```php
+// app/Providers/AppServiceProvider.php
+use Livewire\Livewire;
+
+public function boot(): void
+{
+    Livewire::component('backend.dashboard', \App\Livewire\Admin\Dashboard::class);
+}
+```
+
+Because `AppServiceProvider` boots after `AdminServiceProvider`, the re-registration replaces the package's class for that alias. The blade view can be overridden independently via the vendor path above.
 
 ## Usage
 
