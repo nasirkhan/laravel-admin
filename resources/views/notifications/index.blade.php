@@ -13,6 +13,9 @@
 @endsection
 
 @section("content")
+    {{-- Notifications Livewire component --}}
+    <livewire:admin.notifications />
+
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-4">
         <div class="p-6">
             <x-cube::backend-section-header>

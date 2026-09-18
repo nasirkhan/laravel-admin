@@ -9,10 +9,8 @@ class BackendController extends Controller
 {
     /**
      * Show the application dashboard.
-     *
-     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('admin::index');
     }

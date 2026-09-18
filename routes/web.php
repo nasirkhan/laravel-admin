@@ -6,7 +6,7 @@ use Nasirkhan\Admin\Http\Controllers\NotificationsController;
 use Nasirkhan\Admin\Http\Controllers\RolesController;
 use Nasirkhan\Admin\Http\Controllers\UserController;
 
-Route::group(['prefix' => 'admin', 'as' => 'backend.', 'middleware' => ['auth', 'can:view_backend']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend']], function () {
     /**
      * Backend Dashboard
      */

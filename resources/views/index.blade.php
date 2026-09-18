@@ -31,6 +31,9 @@
         </div>
     </div>
 
+    {{-- Dashboard Livewire component --}}
+    <livewire:admin.dashboard />
+
     {{-- Demo content --}}
     @include("admin::includes.dashboard_demo_data")
 @endsection
