@@ -30,23 +30,22 @@
                 <small class="text-gray-500 dark:text-gray-400">{{ __($module_action) }}</small>
 
                 <x-slot name="toolbar">
-                    <a
-                        href="{{ route("backend.$module_name.markAllAsRead") }}"
-                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-green-700 border border-green-700 rounded-lg hover:bg-green-50 dark:border-green-400 dark:text-green-400 m-1"
-                        title="@lang("Mark all as read")"
+                    <x-cube::button-link
+                        :href="route('backend.' . $module_name . '.markAllAsRead')"
+                        variant="success"
+                        :title="__('Mark all as read')"
                     >
-                        <i class="fas fa-check-square"></i>
-                        @lang("Mark all as read")
-                    </a>
-                    <a
-                        href="{{ route("backend.$module_name.deleteAll") }}"
-                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 border border-red-700 rounded-lg hover:bg-red-50 dark:border-red-400 dark:text-red-400 m-1"
+                        <i class="fas fa-check-square fa-fw" aria-hidden="true"></i>&nbsp;{{ __("Mark all as read") }}
+                    </x-cube::button-link>
+                    <x-cube::button-link
+                        :href="route('backend.' . $module_name . '.deleteAll')"
+                        variant="danger"
                         data-method="DELETE"
-                        data-token="{{ csrf_token() }}"
-                        title="@lang("Delete all notifications")"
+                        :data-token="csrf_token()"
+                        :title="__('Delete all notifications')"
                     >
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
+                        <i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i> &nbsp;{{ __("Delete All") }}
+                    </x-cube::button-link>
                 </x-slot>
             </x-cube::backend-section-header>
 
@@ -95,13 +94,12 @@
                                     {{ $module_name_singular->updated_at->diffForHumans() }}
                                 </td>
                                 <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-end">
-                                    <a
-                                        href="{!! route("backend.$module_name.show", $module_name_singular) !!}"
-                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 m-0.5"
-                                        title="@lang("Show") {{ ucwords(Str::singular($module_name)) }}"
-                                    >
-                                        <i class="fas fa-tv"></i>
-                                    </a>
+                                    <x-cube::backend.buttons.show
+                                        :route="route('backend.' . $module_name . '.show', $module_name_singular)"
+                                        icon="fas fa-tv"
+                                        small="true"
+                                        :title="__('Show') . ' ' . ucwords(Str::singular($module_name))"
+                                    />
                                 </td>
                             </tr>
                         @endforeach
@@ -111,7 +109,7 @@
         </div>
         <div class="border-t border-gray-200 dark:border-gray-700 px-6 py-3">
             <div class="flex items-center justify-between">
-                <div>
+                <div class="text-gray-500 dark:text-gray-400">
                     @lang("Total")
                     {{ $$module_name->total() }} {{ ucwords($module_name) }}
                 </div>
