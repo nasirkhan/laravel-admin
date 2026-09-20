@@ -56,10 +56,10 @@
                             <th class="px-4 py-3">
                                 @lang("Text")
                             </th>
-                            <th class="px-4 py-3">
+                            <th class="px-4 py-3 hidden sm:table-cell">
                                 @lang("Module")
                             </th>
-                            <th class="px-4 py-3">
+                            <th class="px-4 py-3 hidden sm:table-cell">
                                 @lang("Updated At")
                             </th>
                             <th class="px-4 py-3 text-end">
@@ -87,10 +87,10 @@
                                         </span>
                                     </a>
                                 </td>
-                                <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                                <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 hidden sm:table-cell">
                                     {{ $module_name_singular->data["module"] ?? __("Notification") }}
                                 </td>
-                                <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                                <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 hidden sm:table-cell">
                                     {{ $module_name_singular->updated_at->diffForHumans() }}
                                 </td>
                                 <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 text-end">
@@ -108,12 +108,12 @@
             </div>
         </div>
         <div class="border-t border-gray-200 dark:border-gray-700 px-6 py-3">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div class="text-gray-500 dark:text-gray-400">
                     @lang("Total")
                     {{ $$module_name->total() }} {{ ucwords($module_name) }}
                 </div>
-                <div class="float-right">
+                <div>
                     {!! $$module_name->render() !!}
                 </div>
             </div>
