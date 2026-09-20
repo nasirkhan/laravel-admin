@@ -383,13 +383,20 @@ class UserController extends Controller
             'social_profiles.*' => 'nullable|url|max:191',
             'roles' => 'nullable|array',
             'permissions' => 'nullable|array',
+            'avatar' => 'nullable|image|max:2048',
         ]);
 
         $validated_data['name'] = $validated_data['first_name'].' '.$validated_data['last_name'];
 
         $$module_name_singular = User::findOrFail($id);
 
-        $$module_name_singular->update(Arr::except($validated_data, ['roles', 'permissions']));
+        $$module_name_singular->update(Arr::except($validated_data, ['roles', 'permissions', 'avatar']));
+
+        if ($request->hasFile('avatar')) {
+            $$module_name_singular->clearMediaCollection('users');
+            $media = $$module_name_singular->addMedia($request->file('avatar'))->toMediaCollection('users');
+            $$module_name_singular->update(['avatar' => $media->getUrl()]);
+        }
 
         if ((int) $id === 1) {
             // Clear Cache
