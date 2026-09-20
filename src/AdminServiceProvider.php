@@ -4,7 +4,7 @@ namespace Nasirkhan\Admin;
 
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use Nasirkhan\Admin\Livewire\Dashboard;
+use Nasirkhan\Admin\Livewire\AdminDashboard;
 use Nasirkhan\Admin\Livewire\Notifications;
 use Nasirkhan\Admin\Livewire\RolesIndex;
 use Nasirkhan\Admin\Livewire\UsersIndex;
@@ -17,7 +17,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         if (class_exists(Livewire::class)) {
-            Livewire::component('admin.dashboard', Dashboard::class);
+            Livewire::component('admin.dashboard', AdminDashboard::class);
             Livewire::component('admin.notifications', Notifications::class);
             Livewire::component('backend.users-index', UsersIndex::class);
             Livewire::component('backend.roles-index', RolesIndex::class);

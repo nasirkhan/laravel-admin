@@ -100,8 +100,8 @@ Four Livewire components are registered by the package:
 
 | Alias | Class |
 |---|---|
-| `backend.dashboard` | `Nasirkhan\Admin\Livewire\Dashboard` |
-| `backend.notifications` | `Nasirkhan\Admin\Livewire\Notifications` |
+| `admin.dashboard` | `Nasirkhan\Admin\Livewire\AdminDashboard` |
+| `admin.notifications` | `Nasirkhan\Admin\Livewire\Notifications` |
 | `backend.users-index` | `Nasirkhan\Admin\Livewire\UsersIndex` |
 | `backend.roles-index` | `Nasirkhan\Admin\Livewire\RolesIndex` |
 
@@ -205,45 +205,86 @@ Publish and edit `resources/views/vendor/admin/livewire/users-index.blade.php` t
 \Livewire\Livewire::component('backend.users-index', \App\Livewire\Admin\UsersIndex::class);
 ```
 
-## Overriding the Dashboard and Notifications components
+## Customising the Dashboard
 
-The `Dashboard` and `Notifications` Livewire components are intentionally minimal — they ship as empty shells so you can fill them with your own widgets and reactive features.
+The dashboard is powered by the `admin.dashboard` Livewire component (`AdminDashboard` class) and its view `admin::livewire.dashboard`. Both are designed to be overridden without touching the package.
 
-### Override the view only
+### Remove the demo data
 
-Place a file at the corresponding vendor path and Laravel will use it instead of the package default:
-
-```
-resources/views/vendor/admin/livewire/dashboard.blade.php
-resources/views/vendor/admin/livewire/notifications.blade.php
-```
-
-Or publish all views at once and edit from there:
+The default dashboard includes a demo data include. To remove it, publish the main dashboard view and delete the include line:
 
 ```bash
 php artisan vendor:publish --tag=admin-views
 ```
 
-### Override the component class
+Then open `resources/views/vendor/admin/index.blade.php` and remove:
 
-If you need to add properties, computed data, or new actions (e.g. loading stats for dashboard widgets), extend the package class and re-register the alias in your `AppServiceProvider`:
+```blade
+@include("admin::includes.dashboard_demo_data")
+```
+
+### Add or change stat cards (view only)
+
+If you only need to change the layout or copy of the cards — no new database queries — override just the Livewire view:
+
+```bash
+mkdir -p resources/views/vendor/admin/livewire
+cp vendor/nasirkhan/laravel-admin/resources/views/livewire/dashboard.blade.php \
+   resources/views/vendor/admin/livewire/dashboard.blade.php
+```
+
+Edit the published file. Each card follows this structure:
+
+```blade
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+    <div class="flex items-center gap-4 p-5">
+        <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600 text-white shadow-sm">
+            <i class="fa-solid fa-newspaper text-lg"></i>
+        </div>
+        <div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-white leading-none">{{ $postsCount }}</div>
+            <div class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mt-1">@lang('Posts')</div>
+        </div>
+    </div>
+    <div class="border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50 px-5 py-2.5">
+        <a href="{{ route('backend.posts.index') }}" class="flex items-center justify-between text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors group">
+            <span class="text-xs font-semibold">@lang('View all posts')</span>
+            <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform"></i>
+        </a>
+    </div>
+</div>
+```
+
+The grid wrapping the cards uses `grid-cols-1 sm:grid-cols-2 lg:grid-cols-5`. Adjust the last class to match the number of cards you have (e.g. `lg:grid-cols-3` for three cards).
+
+### Add a card that needs new data (class + view)
+
+When a new card needs a count or query that the base component does not expose, extend `AdminDashboard` and re-register the alias.
+
+**1. Create the extended component**
 
 ```php
-// app/Livewire/Admin/Dashboard.php
+// app/Livewire/Admin/AdminDashboard.php
 namespace App\Livewire\Admin;
 
-use Nasirkhan\Admin\Livewire\Dashboard as BaseDashboard;
+use Nasirkhan\Admin\Livewire\AdminDashboard as BaseAdminDashboard;
 
-class Dashboard extends BaseDashboard
+class AdminDashboard extends BaseAdminDashboard
 {
-    public int $userCount;
+    public int $commentsCount;
 
     public function mount(): void
     {
-        $this->userCount = \App\Models\User::count();
+        parent::mount(); // keeps the existing counts
+
+        $this->commentsCount = \App\Models\Comment::count();
     }
 }
 ```
+
+**2. Re-register the Livewire alias**
+
+Because `AppServiceProvider` boots after `AdminServiceProvider`, registering the alias again replaces the package's class:
 
 ```php
 // app/Providers/AppServiceProvider.php
@@ -251,11 +292,30 @@ use Livewire\Livewire;
 
 public function boot(): void
 {
-    Livewire::component('backend.dashboard', \App\Livewire\Admin\Dashboard::class);
+    Livewire::component('admin.dashboard', \App\Livewire\Admin\AdminDashboard::class);
 }
 ```
 
-Because `AppServiceProvider` boots after `AdminServiceProvider`, the re-registration replaces the package's class for that alias. The blade view can be overridden independently via the vendor path above.
+**3. Override the view and add the card**
+
+Publish the Livewire view (if you haven't already) and add a new card block that references `$commentsCount`:
+
+```bash
+mkdir -p resources/views/vendor/admin/livewire
+cp vendor/nasirkhan/laravel-admin/resources/views/livewire/dashboard.blade.php \
+   resources/views/vendor/admin/livewire/dashboard.blade.php
+```
+
+Then add a card for `{{ $commentsCount }}` inside the grid in the published file.
+
+### Overriding the Notifications component
+
+The same pattern applies to the `Notifications` component:
+
+| What to override | Path |
+|---|---|
+| View only | `resources/views/vendor/admin/livewire/notifications.blade.php` |
+| Class | Extend `Nasirkhan\Admin\Livewire\Notifications`, re-register `admin.notifications` |
 
 ## Usage
 
