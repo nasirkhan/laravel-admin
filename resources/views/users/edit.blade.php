@@ -141,14 +141,14 @@
 
                 <div class="flex flex-wrap items-center gap-4 mb-3">
                     <x-cube::label :value="__('labels.backend.users.fields.social')" />
-                    <div>
+                    <div class="text-sm text-gray-700 dark:text-gray-300">
                         @forelse ($user->providers as $provider)
-                            <li>
+                            <li class="list-none">
                                 <i class="fab fa-{{ $provider->provider }} fa-fw"></i>
                                 {{ label_case($provider->provider) }}
                             </li>
                         @empty
-                            {{ __("No social profile added!") }}
+                            <span class="text-gray-500 dark:text-gray-400">{{ __("No social profile added!") }}</span>
                         @endforelse
                     </div>
                 </div>
@@ -215,9 +215,11 @@
                     </div>
 
                     <div class="flex items-center gap-2">
+                        <x-cube::backend-button-return-back small="false">@lang("Cancel")</x-cube::backend-button-return-back>
+
                         @if ($$module_name_singular->status != 2 && $$module_name_singular->id != 1)
                             <a
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
                                 data-method="PATCH"
                                 data-token="{{ csrf_token() }}"
                                 data-confirm="Are you sure?"
@@ -225,12 +227,13 @@
                                 title="{{ __("labels.backend.block") }}"
                             >
                                 <i class="fas fa-ban"></i>
+                                @lang("Block")
                             </a>
                         @endif
 
                         @if ($$module_name_singular->status == 2)
                             <a
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-sky-500 rounded-lg hover:bg-sky-600"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-sky-500 rounded-lg hover:bg-sky-600"
                                 data-method="PATCH"
                                 data-token="{{ csrf_token() }}"
                                 data-confirm="Are you sure?"
@@ -238,42 +241,38 @@
                                 title="{{ __("labels.backend.unblock") }}"
                             >
                                 <i class="fas fa-check"></i>
-                                Unblock
+                                @lang("Unblock")
                             </a>
                         @endif
 
                         @if ($$module_name_singular->email_verified_at == null)
                             <a
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
                                 href="{{ route("backend.users.emailConfirmationResend", $$module_name_singular->id) }}"
                                 title="Send Confirmation Email"
                             >
                                 <i class="fas fa-envelope"></i>
+                                @lang("Resend Email")
                             </a>
                         @endif
 
                         @can("delete_" . $module_name)
                             @if ($$module_name_singular->id != 1)
                                 <a
-                                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                                    class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
                                     data-method="DELETE"
                                     data-token="{{ csrf_token() }}"
                                     href="{{ route("backend.$module_name.destroy", $$module_name_singular) }}"
                                     title="{{ __("labels.backend.delete") }}"
                                 >
                                     <i class="fas fa-trash-alt"></i>
-                                    Delete
+                                    @lang("Delete")
                                 </a>
                             @endif
                         @endcan
                     </div>
                 </div>
             </form>
-
-            <!-- Cancel button outside the form to prevent accidental form submission -->
-            <div class="flex justify-end mb-3">
-                <x-cube::backend-button-return-back>@lang("Cancel")</x-cube::backend-button-return-back>
-            </div>
         </div>
     </x-cube::backend-layout-edit>
 @endsection

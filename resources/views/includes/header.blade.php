@@ -15,7 +15,7 @@
                     data-drawer-toggle="default-sidebar"
                     aria-controls="default-sidebar"
                     type="button"
-                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
                 >
                     <span class="sr-only">Open sidebar</span>
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -30,7 +30,7 @@
                 </a>
 
                 {{-- Frontend link --}}
-                <a href="{{ url('/') }}" target="_blank" title="{{ __('View Site') }}" class="flex p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none" aria-label="{{ __('View Site') }}">
+                <a href="{{ url('/') }}" target="_blank" title="{{ __('View Site') }}" class="flex p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700" aria-label="{{ __('View Site') }}">
                     <i class="fa-solid fa-up-right-from-square"></i>
                     <span class="sr-only">{{ __('View Site') }}</span>
                 </a>
@@ -55,7 +55,7 @@
                 <button
                     id="theme-toggle"
                     type="button"
-                    class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none"
+                    class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
                     aria-label="Toggle dark mode"
                 >
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -74,7 +74,7 @@
                     <button
                         type="button"
                         data-dropdown-toggle="notifications-dropdown"
-                        class="relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:outline-none"
+                        class="relative p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700"
                         aria-label="Notifications"
                     >
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -137,7 +137,7 @@
                         type="button"
                         data-dropdown-toggle="user-dropdown"
                         data-dropdown-placement="bottom"
-                        class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                        class="flex text-sm bg-gray-800 rounded-full"
                         aria-expanded="false"
                         aria-label="User menu"
                     >
