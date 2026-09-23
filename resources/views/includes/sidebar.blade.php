@@ -20,7 +20,7 @@
     <div class="h-full flex flex-col overflow-y-auto bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-700">
 
         {{-- Brand --}}
-        <div class="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <a href="{{ route('backend.dashboard') }}" wire:navigate class="flex items-center space-x-2">
                 @if (config('admin.logo'))
                     <img src="{{ asset(config('admin.logo')) }}" alt="{{ config('admin.name') }}" class="h-8 w-auto" />

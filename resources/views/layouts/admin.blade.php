@@ -48,7 +48,7 @@
         @include('admin::includes.header')
 
         {{-- Main content area --}}
-        <div class="p-4 sm:ml-64 pt-20">
+        <div class="p-4 sm:ml-64 pt-18">
             {{-- Flash messages --}}
             @include('flash::message')
 
