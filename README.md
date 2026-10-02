@@ -382,6 +382,23 @@ export default defineConfig({
 
 These integrations are detected at runtime — the layout degrades gracefully without them.
 
+## Image lightbox on show pages
+
+The `resources/views/includes/show.blade.php` partial is used on resource show pages to render a table of all column values. When a column value is detected as an image path (ends with `.jpg`, `.png`, `.gif`, `.jpeg`, or `.svg`), the `show_column_value()` helper in the host application renders it with PhotoSwipe-compatible markup:
+
+```html
+<div class="pswp-gallery">
+    <figure>
+        <a href="/storage/image.jpg" data-pswp-src="/storage/image.jpg">
+            <img src="/storage/image.jpg" style="max-width:200px;" class="rounded img-thumbnail" alt="">
+        </a>
+        <figcaption class="text-xs text-gray-500 mt-1">Path: storage/image.jpg</figcaption>
+    </figure>
+</div>
+```
+
+Clicking the image opens it in the PhotoSwipe overlay. This requires PhotoSwipe to be initialised in the host application's backend JavaScript bundle — Laravel Starter does this automatically via `resources/js/photoswipe.js`.
+
 ## Dark mode
 
 Dark mode is toggled via a button in the top navbar and persisted in `localStorage` under the key `color-theme`. The `<html>` tag receives the `dark` class (Tailwind class-based dark mode).
