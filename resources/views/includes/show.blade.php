@@ -31,6 +31,3 @@
     </tbody>
 </table>
 </div>
-
-{{-- Lightbox2 Library --}}
-<x-library.lightbox />
