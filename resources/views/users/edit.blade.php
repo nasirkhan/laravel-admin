@@ -215,8 +215,6 @@
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <x-cube::backend-button-return-back small="false">@lang("Cancel")</x-cube::backend-button-return-back>
-
                         @if ($$module_name_singular->status != 2 && $$module_name_singular->id != 1)
                             <a
                                 class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
@@ -273,6 +271,11 @@
                     </div>
                 </div>
             </form>
+
+            <!-- Cancel button outside the form to prevent accidental form submission -->
+            <div class="flex justify-end mt-3">
+                <x-cube::backend-button-return-back>Cancel</x-cube::backend-button-return-back>
+            </div>
         </div>
     </x-cube::backend-layout-edit>
 @endsection
