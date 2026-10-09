@@ -205,6 +205,20 @@ Publish and edit `resources/views/vendor/admin/livewire/users-index.blade.php` t
 \Livewire\Livewire::component('backend.users-index', \App\Livewire\Admin\UsersIndex::class);
 ```
 
+## AI prompt (Claude Code)
+
+A ready-made Claude Code slash command is included at `.claude/commands/override-admin-dashboard.md`. Copy it into your project's `.claude/commands/` directory and run `/override-admin-dashboard` in Claude Code to have the dashboard override implemented automatically — it discovers your models, asks which ones to add as stat cards, creates the extended component, registers the alias, publishes the view, and adds the new cards.
+
+```bash
+mkdir -p .claude/commands
+cp vendor/nasirkhan/laravel-admin/.claude/commands/override-admin-dashboard.md \
+   .claude/commands/override-admin-dashboard.md
+```
+
+Then in Claude Code: `/override-admin-dashboard`
+
+---
+
 ## Customising the Dashboard
 
 The dashboard is powered by the `admin.dashboard` Livewire component (`AdminDashboard` class) and its view `admin::livewire.dashboard`. Both are designed to be overridden without touching the package.
