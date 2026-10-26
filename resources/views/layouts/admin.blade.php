@@ -52,6 +52,23 @@
             {{-- Flash messages --}}
             @include('flash::message')
 
+            {{-- Pending migration warnings from modules --}}
+            @if (!empty($pendingMigrationWarnings))
+                <div class="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm dark:border-yellow-800 dark:bg-yellow-900/20">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-triangle-exclamation mt-0.5 shrink-0 text-yellow-600 dark:text-yellow-400"></i>
+                        <div>
+                            <p class="font-semibold text-yellow-800 dark:text-yellow-300">{{ __('Pending database migrations') }}</p>
+                            <ul class="mt-1 list-inside list-disc space-y-0.5 text-yellow-700 dark:text-yellow-400">
+                                @foreach ($pendingMigrationWarnings as $warning)
+                                    <li>{!! $warning !!}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             {{-- Validation errors --}}
             @includeIf('backend.includes.errors')
 
