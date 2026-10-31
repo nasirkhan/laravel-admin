@@ -36,19 +36,17 @@
                         </span>
                     </td>
                     <td class="px-4 py-3">
-                        <div class="flex items-center justify-end gap-1 flex-wrap">
-                            <a
-                                href="{{ route('backend.roles.show', $role) }}"
-                                class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"
+                        <div class="flex items-center justify-end flex-wrap">
+                            <x-cube::backend-button-show
+                                route="{{ route('backend.roles.show', $role) }}"
                                 title="{{ __('labels.backend.show') }}"
-                            ><i class="fas fa-desktop fa-fw"></i></a>
+                            />
 
                             @can('edit_roles')
-                                <a
-                                    href="{{ route('backend.roles.edit', $role) }}"
-                                    class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                                <x-cube::backend-button-edit
+                                    route="{{ route('backend.roles.edit', $role) }}"
                                     title="{{ __('labels.backend.edit') }}"
-                                ><i class="fas fa-wrench fa-fw"></i></a>
+                                />
                             @endcan
                         </div>
                     </td>
