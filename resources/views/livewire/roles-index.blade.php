@@ -5,9 +5,6 @@
                 <x-cube::lw-table-th column="name" :sort-col="$sortCol" :sort-dir="$sortDir">
                     {{ __('labels.backend.roles.fields.name') }}
                 </x-cube::lw-table-th>
-                <x-cube::lw-table-th column="guard_name" :sort-col="$sortCol" :sort-dir="$sortDir">
-                    {{ __('labels.backend.roles.fields.guard_name') }}
-                </x-cube::lw-table-th>
                 <x-cube::lw-table-th>
                     {{ __('labels.backend.roles.fields.permissions') }}
                 </x-cube::lw-table-th>
@@ -28,11 +25,6 @@
                             class="hover:text-blue-600 dark:hover:text-blue-400"
                         >{{ ucwords($role->name) }}</a>
                     </td>
-                    <td class="px-4 py-3 text-gray-500 dark:text-gray-400">
-                        <span class="inline-flex items-center rounded-full bg-gray-100 dark:bg-gray-700 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
-                            {{ $role->guard_name }}
-                        </span>
-                    </td>
                     <td class="px-4 py-3">
                         <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-medium text-white bg-indigo-600 rounded-full">
                             {{ $role->permissions_count }}
@@ -44,19 +36,17 @@
                         </span>
                     </td>
                     <td class="px-4 py-3">
-                        <div class="flex items-center justify-end gap-1 flex-wrap">
-                            <a
-                                href="{{ route('backend.roles.show', $role) }}"
-                                class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"
+                        <div class="flex items-center justify-end flex-wrap">
+                            <x-cube::backend-button-show
+                                route="{{ route('backend.roles.show', $role) }}"
                                 title="{{ __('labels.backend.show') }}"
-                            ><i class="fas fa-desktop fa-fw"></i></a>
+                            />
 
                             @can('edit_roles')
-                                <a
-                                    href="{{ route('backend.roles.edit', $role) }}"
-                                    class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                                <x-cube::backend-button-edit
+                                    route="{{ route('backend.roles.edit', $role) }}"
                                     title="{{ __('labels.backend.edit') }}"
-                                ><i class="fas fa-wrench fa-fw"></i></a>
+                                />
                             @endcan
                         </div>
                     </td>

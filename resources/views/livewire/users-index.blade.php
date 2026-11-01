@@ -61,65 +61,68 @@
                         @endif
                     </td>
                     <td class="px-4 py-3">
-                        <div class="flex items-center justify-end gap-1 flex-wrap">
-                            <a
-                                href="{{ route('backend.users.show', $user) }}"
-                                class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-green-600 rounded-lg hover:bg-green-700"
+                        <div class="flex items-center justify-end flex-wrap">
+                            <x-cube::backend-button-show
+                                route="{{ route('backend.users.show', $user) }}"
                                 title="{{ __('labels.backend.show') }}"
-                            ><i class="fas fa-desktop fa-fw"></i></a>
+                            />
 
                             @can('edit_users')
-                                <a
-                                    href="{{ route('backend.users.edit', $user) }}"
-                                    class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                                <x-cube::backend-button-edit
+                                    route="{{ route('backend.users.edit', $user) }}"
                                     title="{{ __('labels.backend.edit') }}"
-                                ><i class="fas fa-wrench fa-fw"></i></a>
+                                />
 
                                 <a
                                     href="{{ route('backend.users.changePassword', $user) }}"
-                                    class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-sky-500 rounded-lg hover:bg-sky-600"
+                                    class="inline-flex items-center justify-center size-9 p-2 rounded-lg m-1 cursor-pointer font-medium text-white bg-sky-500 hover:bg-sky-600"
                                     title="{{ __('labels.backend.changePassword') }}"
-                                ><i class="fas fa-key fa-fw"></i></a>
+                                    aria-label="{{ __('labels.backend.changePassword') }}"
+                                ><i class="fas fa-key fa-fw" aria-hidden="true"></i></a>
 
                                 @if ($user->status != 2 && $user->id != 1)
                                     <a
                                         href="{{ route('backend.users.block', $user) }}"
-                                        class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                                        class="inline-flex items-center justify-center size-9 p-2 rounded-lg m-1 cursor-pointer font-medium text-white bg-red-600 hover:bg-red-700"
                                         data-method="PATCH"
                                         data-token="{{ csrf_token() }}"
                                         data-confirm="@lang('Are you sure?')"
                                         title="{{ __('labels.backend.block') }}"
-                                    ><i class="fas fa-ban fa-fw"></i></a>
+                                        aria-label="{{ __('labels.backend.block') }}"
+                                    ><i class="fas fa-ban fa-fw" aria-hidden="true"></i></a>
                                 @endif
 
                                 @if ($user->status == 2)
                                     <a
                                         href="{{ route('backend.users.unblock', $user) }}"
-                                        class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-sky-500 rounded-lg hover:bg-sky-600"
+                                        class="inline-flex items-center justify-center size-9 p-2 rounded-lg m-1 cursor-pointer font-medium text-white bg-sky-500 hover:bg-sky-600"
                                         data-method="PATCH"
                                         data-token="{{ csrf_token() }}"
                                         data-confirm="@lang('Are you sure?')"
                                         title="{{ __('labels.backend.unblock') }}"
-                                    ><i class="fas fa-check fa-fw"></i></a>
+                                        aria-label="{{ __('labels.backend.unblock') }}"
+                                    ><i class="fas fa-check fa-fw" aria-hidden="true"></i></a>
                                 @endif
 
                                 @if ($user->id != 1)
                                     <a
                                         href="{{ route('backend.users.destroy', $user) }}"
-                                        class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                                        class="inline-flex items-center justify-center size-9 p-2 rounded-lg m-1 cursor-pointer font-medium text-white bg-red-600 hover:bg-red-700"
                                         data-method="DELETE"
                                         data-token="{{ csrf_token() }}"
                                         data-confirm="@lang('Are you sure?')"
                                         title="{{ __('labels.backend.delete') }}"
-                                    ><i class="fas fa-trash-alt fa-fw"></i></a>
+                                        aria-label="{{ __('labels.backend.delete') }}"
+                                    ><i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i></a>
                                 @endif
 
                                 @if ($user->email_verified_at == null)
                                     <a
                                         href="{{ route('backend.users.emailConfirmationResend', $user->id) }}"
-                                        class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                                        class="inline-flex items-center justify-center size-9 p-2 rounded-lg m-1 cursor-pointer font-medium text-white bg-blue-600 hover:bg-blue-700"
                                         title="@lang('Send confirmation email')"
-                                    ><i class="fas fa-envelope fa-fw"></i></a>
+                                        aria-label="@lang('Send confirmation email')"
+                                    ><i class="fas fa-envelope fa-fw" aria-hidden="true"></i></a>
                                 @endif
                             @endcan
                         </div>

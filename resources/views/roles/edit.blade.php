@@ -40,9 +40,10 @@
                     {{ __('This role is protected and cannot be updated.') }}
                 </div>
             </div>
-            <a href="{{ route("backend.$module_name.index") }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:text-gray-300 dark:border-gray-600 dark:bg-gray-800">
-                <i class="fas fa-arrow-left"></i> {{ __('Back to Roles') }}
-            </a>
+            <x-cube::backend-button-list
+                :route="route('backend.' . $module_name . '.index')"
+                :title="__('Back to Roles')"
+            >{{ __('Back to Roles') }}</x-cube::backend-button-list>
         @else
             @php $name_locked = ($role_users_count ?? 0) > 0; @endphp
 
@@ -50,43 +51,7 @@
                 @csrf
                 @method('PATCH')
 
-                <div class="mb-3">
-                    <x-cube::label for="name" :value="__('labels.backend.roles.fields.name')" required />
-
-                    @if ($name_locked)
-                        <input type="hidden" name="name" value="{{ $$module_name_singular->name }}" />
-                        <div class="mt-1">
-                            <x-cube::input type="text" name="name" :value="$$module_name_singular->name" :placeholder="__('labels.backend.roles.fields.name')" disabled />
-                        </div>
-                        <small class="text-yellow-600 dark:text-yellow-400">
-                            <i class="fas fa-lock"></i>
-                            {{ __('Role name cannot be changed because :count user(s) are assigned to this role.', ['count' => $role_users_count]) }}
-                        </small>
-                    @else
-                        <div class="mt-1">
-                            <x-cube::input type="text" name="name" :value="old('name', $$module_name_singular->name)" :placeholder="__('labels.backend.roles.fields.name')" required />
-                        </div>
-                        <x-cube::error :messages="$errors->get('name')" class="mt-2" />
-                    @endif
-                </div>
-
-                <div class="mb-3">
-                    <x-cube::label :value="__('Abilities')" />
-                    <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">{{ __("Select permissions from the list:") }}</p>
-
-                    @if ($permissions->count())
-                        @foreach ($permissions as $permission)
-                            <div class="mb-2">
-                                <x-cube::checkbox
-                                    name="permissions[]"
-                                    value="{{ $permission->name }}"
-                                    id="permission-{{ $permission->id }}"
-                                    :checked="in_array($permission->name, $$module_name_singular->permissions->pluck('name')->all())"
-                                >{{ $permission->name }}</x-cube::checkbox>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
+                @include('admin::roles.form', ['data' => $$module_name_singular])
 
                 <div class="flex items-center justify-between mb-3">
                     <div>
@@ -96,13 +61,14 @@
                     <div>
                         @can("delete_" . $module_name)
                             <a
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"
+                                class="inline-flex items-center justify-center cursor-pointer font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 m-1 size-9 p-2"
                                 data-method="DELETE"
                                 data-token="{{ csrf_token() }}"
                                 href="{{ route("backend.$module_name.destroy", $$module_name_singular) }}"
                                 title="{{ __("labels.backend.delete") }}"
+                                aria-label="{{ __("labels.backend.delete") }}"
                             >
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-trash-alt fa-fw" aria-hidden="true"></i>
                             </a>
                         @endcan
                     </div>

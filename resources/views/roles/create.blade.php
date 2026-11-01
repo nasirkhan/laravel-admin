@@ -28,27 +28,7 @@
         <form method="POST" action="{{ route("backend.roles.store") }}">
             @csrf
 
-            <x-cube::group name="name" :label="__('labels.backend.roles.fields.name')" required>
-                <x-cube::input type="text" name="name" :value="old('name')" :placeholder="__('labels.backend.roles.fields.name')" required />
-            </x-cube::group>
-
-            <div class="mb-3">
-                <x-cube::label :value="__('Abilities')" />
-                <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">{{ __("Select permissions from the list:") }}</p>
-
-                @if ($permissions->count())
-                    @foreach ($permissions as $permission)
-                        <div class="mb-2">
-                            <x-cube::checkbox
-                                name="permissions[]"
-                                value="{{ $permission->name }}"
-                                id="permission-{{ $permission->id }}"
-                                :checked="in_array($permission->name, old('permissions', []))"
-                            >{{ $permission->name }}</x-cube::checkbox>
-                        </div>
-                    @endforeach
-                @endif
-            </div>
+            @include('admin::roles.form', ['data' => null])
 
             <div class="mb-4">
                 <x-cube::backend-button-create title="{{ __('Create') }} {{ ucwords(Str::singular($module_name)) }}">
