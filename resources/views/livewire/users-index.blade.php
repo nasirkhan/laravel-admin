@@ -1,21 +1,18 @@
 <div>
-    <x-cube::lw-table :rows="$users" search-placeholder="{{ __('Search by name or email…') }}">
+    <x-cube::lw-table :rows="$users" search-placeholder="{{ __('Search by name, username or email…') }}">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <x-cube::lw-table-th column="name" :sort-col="$sortCol" :sort-dir="$sortDir">
                     {{ __('labels.backend.users.fields.name') }}
                 </x-cube::lw-table-th>
+                <x-cube::lw-table-th column="username" :sort-col="$sortCol" :sort-dir="$sortDir">
+                    {{ __('labels.backend.users.fields.username') }}
+                </x-cube::lw-table-th>
                 <x-cube::lw-table-th column="email" :sort-col="$sortCol" :sort-dir="$sortDir">
                     {{ __('labels.backend.users.fields.email') }}
                 </x-cube::lw-table-th>
                 <x-cube::lw-table-th>
-                    {{ __('labels.backend.users.fields.status') }}
-                </x-cube::lw-table-th>
-                <x-cube::lw-table-th>
                     {{ __('labels.backend.users.fields.roles') }}
-                </x-cube::lw-table-th>
-                <x-cube::lw-table-th>
-                    {{ __('labels.backend.users.fields.social') }}
                 </x-cube::lw-table-th>
                 <x-cube::lw-table-th class="text-right">
                     {{ __('labels.backend.action') }}
@@ -31,11 +28,8 @@
                             class="hover:text-blue-600 dark:hover:text-blue-400"
                         >{{ $user->name }}</a>
                     </td>
+                    <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ $user->username }}</td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
-                    <td class="px-4 py-3">
-                        {!! $user->status_label !!}
-                        {!! $user->confirmed_label !!}
-                    </td>
                     <td class="px-4 py-3">
                         @if ($user->getRoleNames()->count() > 0)
                             <ul class="space-y-1">
@@ -43,18 +37,6 @@
                                     <li class="flex items-center gap-1.5 text-xs">
                                         <i class="fa-solid fa-user-shield fa-fw text-gray-400 shrink-0"></i>
                                         {{ ucwords($role) }}
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </td>
-                    <td class="px-4 py-3">
-                        @if ($user->providers->count())
-                            <ul class="space-y-1 text-xs">
-                                @foreach ($user->providers as $provider)
-                                    <li>
-                                        <i class="fab fa-{{ $provider->provider }} fa-fw"></i>
-                                        {{ label_case($provider->provider) }}
                                     </li>
                                 @endforeach
                             </ul>
@@ -130,7 +112,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="px-4 py-8 text-center text-gray-400 dark:text-gray-500">
+                    <td colspan="5" class="px-4 py-8 text-center text-gray-400 dark:text-gray-500">
                         @lang('No users found.')
                     </td>
                 </tr>
