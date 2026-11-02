@@ -155,63 +155,44 @@
 
                 @can("edit_users_permissions")
                     <div class="mb-4">
-                        <x-cube::label :value="__('Abilities')" />
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
-                            <div class="bg-white dark:bg-gray-800 border border-sky-200 dark:border-sky-800 rounded-lg">
-                                <div class="px-4 py-3 border-b border-sky-200 dark:border-sky-800 font-semibold text-gray-900 dark:text-white">@lang("Roles")</div>
-                                <div class="p-4 space-y-2">
-                                    @if ($roles->count())
-                                        @foreach ($roles as $role)
-                                            <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-3">
-                                                <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                                                    <x-cube::checkbox
-                                                        name="roles[]"
-                                                        value="{{ $role->name }}"
-                                                        id="role-{{ $role->id }}"
-                                                        :checked="in_array($role->name, $userRoles)"
-                                                    >{{ label_case($role->name) }} ({{ $role->name }})</x-cube::checkbox>
-                                                </div>
-                                                <div class="p-4 text-sm text-gray-600 dark:text-gray-400">
-                                                    @if ($role->id != 1)
-                                                        @if ($role->permissions->count())
-                                                            @foreach ($role->permissions as $permission)
-                                                                <i class="far fa-check-circle fa-fw mr-1"></i>
-                                                                &nbsp;{{ $permission->name }}&nbsp;
-                                                            @endforeach
-                                                        @else
-                                                            @lang("None")
-                                                        @endif
-                                                    @else
-                                                        @lang("All Permissions")
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
+                        <x-cube::label :value="__('Roles')" />
+                        <div class="mt-1 flex flex-wrap gap-3">
+                            @foreach ($roles as $role)
+                                <div class="bg-white dark:bg-gray-800 border border-sky-200 dark:border-sky-800 rounded-lg min-w-48">
+                                    <div class="px-4 py-2 border-b border-sky-200 dark:border-sky-800">
+                                        <x-cube::checkbox
+                                            name="roles[]"
+                                            value="{{ $role->name }}"
+                                            id="role-{{ $role->id }}"
+                                            :checked="in_array($role->name, $userRoles)"
+                                        >{{ label_case($role->name) }}</x-cube::checkbox>
+                                    </div>
+                                    <div class="px-4 py-2 text-xs text-gray-500 dark:text-gray-400">
+                                        @if ($role->id == 1)
+                                            @lang("All Permissions")
+                                        @elseif ($role->permissions->count())
+                                            {{ $role->permissions->pluck('name')->implode(', ') }}
+                                        @else
+                                            @lang("None")
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 rounded-lg">
-                                <div class="px-4 py-3 border-b border-blue-200 dark:border-blue-800 font-semibold text-gray-900 dark:text-white">@lang("Permissions")</div>
-                                <div class="p-4 space-y-2">
-                                    @if ($permissions->count())
-                                        @foreach ($permissions as $permission)
-                                            <x-cube::checkbox
-                                                name="permissions[]"
-                                                value="{{ $permission->name }}"
-                                                id="permission-{{ $permission->id }}"
-                                                :checked="in_array($permission->name, $userPermissions)"
-                                            >{{ label_case($permission->name) }} ({{ $permission->name }})</x-cube::checkbox>
-                                        @endforeach
-                                    @endif
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <x-cube::label :value="__('Permissions')" />
+                        <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">{{ __("Select individual permissions to grant in addition to role permissions:") }}</p>
+                        @php $checkedPermissions = old('permissions', $userPermissions); @endphp
+                        @include('admin::includes.permissions-table', ['permissions' => $permissions, 'checkedPermissions' => $checkedPermissions])
                     </div>
                 @endcan
 
                 <div class="flex items-center justify-between mb-3">
-                    <div>
+                    <div class="flex items-center">
                         <x-cube::backend-button-save />
+                        <x-cube::backend-button-return-back>Cancel</x-cube::backend-button-return-back>
                     </div>
 
                     <div class="flex items-center gap-2">
@@ -272,10 +253,7 @@
                 </div>
             </form>
 
-            <!-- Cancel button outside the form to prevent accidental form submission -->
-            <div class="flex justify-end mt-3">
-                <x-cube::backend-button-return-back>Cancel</x-cube::backend-button-return-back>
-            </div>
+
         </div>
     </x-cube::backend-layout-edit>
 @endsection
