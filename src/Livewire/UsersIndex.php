@@ -22,6 +22,7 @@ class UsersIndex extends LwTable
                 fn (Builder $q) => $q->where(
                     fn (Builder $inner) => $inner
                         ->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('username', 'like', '%'.$this->search.'%')
                         ->orWhere('email', 'like', '%'.$this->search.'%')
                 )
             )
