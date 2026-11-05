@@ -20,6 +20,7 @@
         :data="$$module_name_singular"
         :module_name="$module_name"
         :noForm="$is_protected_role ?? false"
+        :hideDelete="($role_users_count ?? 0) > 0"
     >
         <x-slot name="header">
             <x-cube::backend-section-header>
