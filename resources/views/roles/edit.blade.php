@@ -15,6 +15,7 @@
 @endsection
 
 @section("content")
+    {{-- Cancel button outside the form to prevent accidental form submission (handled by backend-layout-edit component) --}}
     <x-cube::backend-layout-edit
         :data="$$module_name_singular"
         :module_name="$module_name"
