@@ -41,16 +41,16 @@
                         <tr>
                             <th class="px-4 py-3">Title</th>
                             <th class="px-4 py-3">
-                                {{ $data->title }}
+                                {{ $data->title ?? "" }}
                             </th>
                         </tr>
                         <tr>
                             <th class="px-4 py-3">Text</th>
                             <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                                {!! $data->text !!}
+                                {!! $data->text ?? "" !!}
                             </td>
                         </tr>
-                        @if ($data->url_backend != "")
+                        @if (($data->url_backend ?? "") != "")
                             <tr>
                                 <th class="px-4 py-3">URL Backend</th>
                                 <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
@@ -60,7 +60,7 @@
                             </tr>
                         @endif
 
-                        @if ($data->url_frontend != "")
+                        @if (($data->url_frontend ?? "") != "")
                             <tr>
                                 <th class="px-4 py-3">URL Frontend</th>
                                 <td class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
