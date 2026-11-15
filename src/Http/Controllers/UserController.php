@@ -395,7 +395,7 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             $$module_name_singular->clearMediaCollection('users');
             $media = $$module_name_singular->addMedia($request->file('avatar'))->toMediaCollection('users');
-            $$module_name_singular->update(['avatar' => $media->getUrl()]);
+            $$module_name_singular->update(['avatar' => User::imagePathFromUrl($media->getUrl())]);
         }
 
         if ((int) $id === 1) {
